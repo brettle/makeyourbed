@@ -1,0 +1,48 @@
+{
+    "version": "1.4.1",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./tests/cucumber/features/step_definitions/sample_steps.ts",
+        "./tests/cucumber/features/step_definitions/sample_steps0.ts",
+        "./tests/cucumber/features/step_definitions/zzz.ts-compiler.ts",
+        "./typings/bluebird/bluebird.d.ts",
+        "./typings/chai-as-promised/chai-as-promised.d.ts",
+        "./typings/chai/chai.d.ts",
+        "./typings/cucumber/cucumber.d.ts",
+        "./typings/meteor-cucumber/meteor-cucumber.d.ts",
+        "./typings/meteor/all-definitions.d.ts",
+        "./typings/meteor/backbone.d.ts",
+        "./typings/meteor/bootstrap.d.ts",
+        "./typings/meteor/collectionfs.d.ts",
+        "./typings/meteor/d3.d.ts",
+        "./typings/meteor/errors.d.ts",
+        "./typings/meteor/flash-messages.d.ts",
+        "./typings/meteor/google-maps-smart-package.d.ts",
+        "./typings/meteor/google.maps.d.ts",
+        "./typings/meteor/handlebars.d.ts",
+        "./typings/meteor/ironrouter.d.ts",
+        "./typings/meteor/jquery.d.ts",
+        "./typings/meteor/lib.d.ts",
+        "./typings/meteor/meteor.d.ts",
+        "./typings/meteor/node-fibers.d.ts",
+        "./typings/meteor/node.d.ts",
+        "./typings/meteor/observatory.d.ts",
+        "./typings/meteor/paginated-subscription.d.ts",
+        "./typings/meteor/roles.d.ts",
+        "./typings/meteor/smart-collections.d.ts",
+        "./typings/meteor/underscore.d.ts",
+        "./typings/meteor/underscore.string.d.ts",
+        "./zzz.ts-compiler.ts"
+    ]
+}
