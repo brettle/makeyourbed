@@ -29,4 +29,4 @@ function defineSteps() {
   });
 }
 
-export = defineSteps();
+export = defineSteps;
