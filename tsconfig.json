@@ -14,10 +14,10 @@
     ],
     "files": [
         "./tests/cucumber/features/step_definitions/sample_steps.ts",
-        "./tests/cucumber/features/step_definitions/sample_steps0.ts",
         "./tests/cucumber/features/step_definitions/zzz.ts-compiler.ts",
         "./typings/bluebird/bluebird.d.ts",
         "./typings/chai-as-promised/chai-as-promised.d.ts",
+        "./typings/chai/chai-should.d.ts",
         "./typings/chai/chai.d.ts",
         "./typings/cucumber/cucumber.d.ts",
         "./typings/meteor-cucumber/meteor-cucumber.d.ts",

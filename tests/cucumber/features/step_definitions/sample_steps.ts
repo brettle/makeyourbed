@@ -1,4 +1,5 @@
 /// <reference path="../../../../typings/meteor/node.d.ts"/>
+/// <reference path="../../../../typings/chai/chai-should.d.ts"/>
 /// <reference path="../../../../typings/meteor-cucumber/meteor-cucumber.d.ts"/>
 import mc = require('meteor-cucumber');
 import url = require('url');
