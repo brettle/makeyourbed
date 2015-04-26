@@ -13,6 +13,7 @@
         "!./node_modules/**/*.ts"
     ],
     "files": [
+        "./makeyourbed.ts",
         "./tests/cucumber/features/step_definitions/sample_steps.ts",
         "./tests/cucumber/features/step_definitions/zzz.ts-compiler.ts",
         "./typings/bluebird/bluebird.d.ts",
