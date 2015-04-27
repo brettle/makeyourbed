@@ -1,17 +1,16 @@
 /// <reference path="../../../../typings/meteor/node.d.ts"/>
+/// <reference path="../../../../typings/chai-as-promised/chai-as-promised.d.ts"/>
 /// <reference path="../../../../typings/chai/chai-should.d.ts"/>
 /// <reference path="../../../../typings/meteor-cucumber/meteor-cucumber.d.ts"/>
 import mc = require('meteor-cucumber');
 import url = require('url');
-import chai = require("chai");
 
 interface MyWorld extends mc.World {
   rowSelector: string;
-};
+}
 
 'use strict';
 function defineSteps() {
-  var should=chai.should();
   var self = <mc.StepDefinitions>this;
   // You can use normal require here, cucumber is NOT run in a Meteor context (by design)
 
@@ -37,30 +36,20 @@ function defineSteps() {
   self.Then(/^column (\d*) should be labeled "([^"]*)"$/, function (column:number, label:string) {
     var self = <mc.World>this;      // you can use chai-as-promised in step definitions also
     return self.browser.
-      getText('table.microlives th', function(err, text: string[]) {
-        should.not.exist(err, err);
-        should.exist(text);
-        text[column-1].should.equal(label);
-      });
-  });
+      getText(`//table[@class='microlives']/tr/th[${column}]`).should.eventually.equal(label);
+    });
 
   self.When(/^I look at "([^"]*)"$/, function (lifestyle:string) {
     var self = <MyWorld>this;
     self.rowSelector = `//table/tr/td[text()[contains(., '${lifestyle}')]]/..`;
-    return self.browser;
+    return self.browser.isExisting(self.rowSelector).should.eventually.be.true;
   });
 
   self.Then(/the Microlives column should say "([^"]*)"$/, function (microlives:string) {
     var self = <MyWorld>this;
     return self.browser.
-      getText(`${self.rowSelector}/td[2]`, function (err, text:string) {
-        should.not.exist(err, err);
-        should.exist(text);
-        text.should.equal(microlives);
-      });
+      getText(`${self.rowSelector}/td[2]`).should.eventually.equal(microlives);
   });
-
-
 }
 
 export = defineSteps;

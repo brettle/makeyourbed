@@ -7,7 +7,8 @@ declare module "meteor-cucumber" {
     call(callback: Promise.Thenable<WebdriverIO>): WebdriverIO;
     waitForVisible(text: string): WebdriverIO;
     getTitle(): WebdriverIO;
-    getText(selector: string, cb?: any): string;
+    getText(selector: string): WebdriverIO;
+    isExisting(selector: string): WebdriverIO;
   }
 
   interface DdpClient {
