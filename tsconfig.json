@@ -15,6 +15,7 @@
     "files": [
         "./makeyourbed.ts",
         "./tests/cucumber/features/step_definitions/sample_steps.ts",
+        "./tests/cucumber/features/step_definitions/track_microlives_steps.ts",
         "./tests/cucumber/features/step_definitions/zzz.ts-compiler.ts",
         "./typings/bluebird/bluebird.d.ts",
         "./typings/chai-as-promised/chai-as-promised.d.ts",

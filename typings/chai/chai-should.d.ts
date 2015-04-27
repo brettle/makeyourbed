@@ -11,7 +11,7 @@ declare module chai {
     export interface Should extends ShouldNot {
         not: ShouldNot
     }
-    
+
     export interface ShouldNot {
         equal(act: any, exp: any, msg?: string):void;
         Throw(fn: Function, msg?: string):void;
