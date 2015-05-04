@@ -57,36 +57,20 @@ function defineSteps() {
 
   self.Then(/^it is ordered by descending( absolute)? immediate value and then by descending( absolute)? delayed value$/, function (column:number, label:string) {
     var self = <MyWorld>this;
-    var elementsPromise = Promise.promisify(self.browser.elements, self.browser);
-    var elementIdElementPromise = Promise.promisify(self.browser.elementIdElement, self.browser);
-    var elementIdTextPromise = Promise.promisify(self.browser.elementIdText, self.browser);
-    return elementsPromise(`${self.listPath}/li`).
-      then(function(state:any) { return state.value; }).
-      map(function(e:mc.WebElement) {
+    return self.browser.getElementIds(`${self.listPath}/li`).
+      map(function(id:string) {
           return Promise.props(<Value>{
-            immediate: (<any>elementIdElementPromise(e.ELEMENT, './details/summary/*[@class="immediate_value"]')).
-              get('value').
-              get('ELEMENT').
-              then(function(id:string) {
-                return elementIdTextPromise(id);
-              }).
-              then(function (state:any) {
-                var s:string = state.value;
+            immediate: (<any>self.browser.getElementIdText(id, './details/summary/*[@class="immediate_value"]')).
+              then(function (s:string) {
                 var v:number = Math.abs(parseFloat(s));
-                console.log(`immediate: state=${state}, s=${s}, v=${v}`);
+                console.log(`immediate: s=${s}, v=${v}`);
                 return isNaN(v) ? 0 : v;
               }).
               catch(function () { return 0; }),
-            delayed: (<any>elementIdElementPromise(e.ELEMENT, './details/*[@class="delayed_value"]')).
-              get('value').
-              get('ELEMENT').
-              then(function(id:string) {
-                return elementIdTextPromise(id);
-              }).
-              then(function (state:any) {
-                var s:string = state.value;
+            delayed: (<any>self.browser.getElementIdText(id, './details/*[@class="delayed_value"]')).
+              then(function (s:string) {
                 var v:number = Math.abs(parseFloat(s));
-                console.log(`delayed: state=${state}, s=${s}, v=${v}`);
+                console.log(`delayed: s=${s}, v=${v}`);
                 return v;
                 })
           })
@@ -106,19 +90,9 @@ function defineSteps() {
 
     self.Then(/^each action should have a short summary$/, function () {
       var self = <MyWorld>this;
-      var elementsPromise = Promise.promisify(self.browser.elements, self.browser);
-      var elementIdElementPromise = Promise.promisify(self.browser.elementIdElement, self.browser);
-      var elementIdTextPromise = Promise.promisify(self.browser.elementIdText, self.browser);
-      return (<any>elementsPromise(`${self.listPath}/li`)).
-        get('value').
-        map(function(e:mc.WebElement) {
-          return (<any>elementIdElementPromise(e.ELEMENT, './details/summary')).
-            get('value').
-            get('ELEMENT').
-            then(function (id:string) {
-              return elementIdTextPromise(id);
-            }).
-            get('value').
+      return self.browser.getElementIds(`${self.listPath}/li`).
+        map(function(id:string) {
+          return (self.browser.getElementIdText(id, './details/summary')).
             should.eventually.exist;
           }).
         all();
