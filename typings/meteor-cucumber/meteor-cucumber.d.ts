@@ -2,13 +2,20 @@
 /// <reference path="../bluebird/bluebird.d.ts"/>
 
 declare module "meteor-cucumber" {
-  interface WebdriverIO {
-    url(url: string): WebdriverIO;
-    call(callback: Promise.Thenable<WebdriverIO>): WebdriverIO;
-    waitForVisible(text: string): WebdriverIO;
-    getTitle(): WebdriverIO;
-    getText(selector: string): WebdriverIO;
-    isExisting(selector: string): WebdriverIO;
+  interface WebElement {
+    ELEMENT: string;
+  }
+
+  interface WebdriverIO<T> extends Promise<T>{
+    url(url: string): WebdriverIO<T>;
+    waitForVisible(text: string): WebdriverIO<T>;
+    getTitle(): WebdriverIO<string>;
+    getText(selector: string): WebdriverIO<string>;
+    isExisting(selector: string): WebdriverIO<boolean>;
+    elements(selector: string): WebdriverIO<WebElement[]>;
+    elementIdText(id: string): WebdriverIO<string>;
+    elementIdElement(id: string, selector: string): WebdriverIO<WebElement>;
+    get(propName: string): WebdriverIO<any>;
   }
 
   interface DdpClient {
@@ -27,6 +34,6 @@ declare module "meteor-cucumber" {
 
   export interface World {
     ddp: DdpClient;
-    browser: WebdriverIO;
+    browser: WebdriverIO<any>;
   }
 }

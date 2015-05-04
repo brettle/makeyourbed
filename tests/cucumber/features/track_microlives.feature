@@ -10,21 +10,50 @@ Feature: Track microlives
     Given I am a new user
     And I navigate to "/"
 
+  Scenario:
+    When I look at the page
+    Then I see a Do list
+    And I see a Don't list
+
+  Scenario:
+    When I look at the Do list
+    Then it is ordered by descending immediate value and then by descending delayed value
+    And each action has a green checkbox to its left
+
+  Scenario:
+    When I look at the Don't list
+    Then it is ordered by descending absolute immediate value and then by descending absolute delayed value
+    And each action has a red checkbox to its left
+
   Scenario Outline:
-    When I see the microlives table
-    Then column <column> should be labeled "<label>"
+    When I look at the <do_or_dont> list
+    And each action should have a short summary
+    And each action should contain a progress detail
+    And each progress detail should indicate the value of reaching the target by a deadline
 
     Examples:
-    | column | label      |
-    |      1 | Lifestyle  |
-    |      2 | Microlives |
-    |      3 | Choices    |
+    | do_or_dont |
+    | Do         |
+    | Don't      |
 
   Scenario Outline:
-    When I look at "<lifestyle>"
-    Then the Microlives column should say "<microlives>"
+    When I click the checkbox for "<action>", which does not affect my score
+    Then the checkbox is <checked_or_xed>
+    And the progress detail says "<progress_message>"
+    And the checkbox is cleared within 1 second
 
     Examples:
-    | lifestyle                                  | microlives |
-    | Drink 3-5 cups of coffee today             |        0.5 |
-    | Exercise for 60 minutes over the next week |          1 |
+    | action                | checked_or_xed | progress_message                                      |
+    | Drink a cup of coffee | checked        | +1 microlife for drinking 3 more cups of coffee today |
+    | Smoke a cigarette     | xed            | -1 microlife for smoking 1 more cigarette today       |
+
+  Scenario Outline:
+    When I click the checkbox for "<action>", which affects my score
+    Then the checkbox is <checked_or_xed>
+    And my score is changed by <score_change>
+    And the action is removed from the list within 1 second
+
+    Examples:
+    | action                | checked_or_xed | score_change |
+    | Have a healthy weight | checked        | +1           |
+    | Be overweight         | xed            | -0.5         |

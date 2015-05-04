@@ -12,3 +12,4 @@ xolvio:webdriver
 meteortypescript:typescript-libs
 meteortypescript:compiler
 brettle:chai
+brettle:bluebird

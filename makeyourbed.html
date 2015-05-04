@@ -5,22 +5,52 @@
 <body>
   <h1>Make Your Bed</h1>
 
-  <table class="microlives">
-    <tr>
-      <th>Lifestyle</th>
-      <th>Microlives</th>
-      <th>Choices</th>
-    </tr>
-    <tr>
-      <td>Drink 3-5 cups of coffee today</td>
-      <td>0.5</td>
-    </tr>
-    <tr>
-      <td>Exercise for 60 minutes over the next week</td>
-      <td>1</td>
-    </tr>
-  </table>
+  <h2>Do:</h2>
+  <ol>
+    <li>
+      <details>
+        <summary>
+          <span class="immediate_value">1</span>
+          Drink a can of coke
+        </summary>
+        <span class="delayed_value">1.5</span> microlife if you
+        drink 1 can of coke today
+      </details>
+    </li>
+    <li>
+      <details>
+        <summary>
+          <span class="immediate_value">1</span>
+          Drink a cup of coffee
+        </summary>
+        <span class="delayed_value">1</span> microlife if you
+        drink 1 cup of coffee today
+      </details>
+    </li>
+  </ol>
 
+  <h2>Don't:</h2>
+  <ol>
+    <li>
+      <details>
+        <summary>
+          <span class="immediate_value">-1.5</span>
+          Smoke a cigarette
+        </summary>
+        <span class="delayed_value">-1.5</span> microlife if you
+        smoke a cigarette today
+      </details>
+    </li>
+    <li>
+      <details>
+        <summary>
+          Smoke a cigar
+        </summary>
+        <span class="delayed_value">-1.5</span> microlife if you
+        smoke 2 cigars today
+      </details>
+    </li>
+  </ol>
   {{> hello}}
 </body>
 
