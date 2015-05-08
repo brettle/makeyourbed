@@ -38,7 +38,6 @@ function defineHooks():void
     self.browser.addCommand('getElementId', function(id:string, selector:string) {
       var self = <mc.WebdriverIO<any>>this;
       var cb = <Function>arguments[arguments.length-1];
-      console.log(`getElementId(${arguments})`);
       if (arguments.length === 2 || selector == undefined) {
         selector = id;
         id = null;
@@ -89,9 +88,7 @@ function defineHooks():void
           if (err)
             cb(err, result);
           else {
-            console.log(`elementIdCssProperty(${id}) => ${JSON.stringify(result)}`);
             result = parseCSS([result], property);
-            console.log(`After parsing: ${JSON.stringify(result)}`);
             cb(err, result.parsed);
           }
           return;

@@ -63,20 +63,17 @@ function defineSteps() {
             immediate: (<any>self.browser.getElementIdText(id, './details/summary/*[@class="immediate_value"]')).
               then(function (s:string) {
                 var v:number = Math.abs(parseFloat(s));
-                console.log(`immediate: s=${s}, v=${v}`);
                 return isNaN(v) ? 0 : v;
               }).
               catch(function () { return 0; }),
             delayed: (<any>self.browser.getElementIdText(id, './details//*[@class="delayed_value"]')).
               then(function (s:string) {
                 var v:number = Math.abs(parseFloat(s));
-                console.log(`delayed: s=${s}, v=${v}`);
                 return v;
                 })
           })
         }).
       all().
-      tap(console.log).
       then(function (values:Value[]) {
         for (var i = 0; i < values.length-1; i++) {
           values[i+1].immediate.should.be.at.most(<number>(values[i].immediate));
