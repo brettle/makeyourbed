@@ -88,6 +88,24 @@ function defineSteps() {
       });
     });
 
+    self.Then(/^each action has a (green|red) checkbox to its left$/, function (color:string) {
+      var self = <MyWorld>this;
+      var colorRegExp:RegExp;
+
+      if (color === 'red') {
+        colorRegExp = /#[89a-f][0-9a-f]0000/;
+      }
+      else {
+        colorRegExp = /#00[89a-f][0-9a-f]00/;
+      }
+      return self.browser.getElementIds(`${self.listPath}/li`).
+        map(function(id:string) {
+          return (self.browser.getElementIdCssProperty(id, './details/preceding-sibling::*/descendant-or-self::input[@type="checkbox"]', 'color')).
+            should.eventually.have.property('hex').match(colorRegExp);
+          }).
+        all();
+      });
+
     self.Then(/^each action should have a short summary$/, function () {
       var self = <MyWorld>this;
       return self.browser.getElementIds(`${self.listPath}/li`).
@@ -97,6 +115,7 @@ function defineSteps() {
           }).
         all();
       });
+
 }
 
 export = defineSteps;

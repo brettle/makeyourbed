@@ -1,1 +1,8 @@
 /* CSS declarations go here */
+.do li input {
+  color: green;
+}
+
+.dont li input {
+  color: red;
+}

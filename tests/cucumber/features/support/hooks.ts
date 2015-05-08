@@ -3,6 +3,8 @@
 import mc = require('meteor-cucumber');
 import Promise = require('bluebird');
 
+var parseCSS = require('webdriverio/lib/helpers/parseCSS.js');
+
 'use strict';
 function defineHooks():void
 {
@@ -32,7 +34,8 @@ function defineHooks():void
     self.browser.addCommand('getElementId', function(id:string, selector:string) {
       var self = <mc.WebdriverIO<any>>this;
       var cb = <Function>arguments[arguments.length-1];
-      if (arguments.length === 2) {
+      console.log(`getElementId(${arguments})`);
+      if (arguments.length === 2 || selector == undefined) {
         selector = id;
         id = null;
         self.element(selector, handleResult);
@@ -55,6 +58,26 @@ function defineHooks():void
         self.elementIdText(id, function(err: Error, result: any): void {
           if (err) return cb(err, result);
           cb(err, result.value);
+        });
+      }
+    });
+    self.browser.getElementIdText = <any>Promise.promisify(self.browser.getElementIdText);
+
+    self.browser.addCommand('getElementIdCssProperty', function(id:string, selector:string, property: string) {
+      var self = <mc.WebdriverIO<any>>this;
+      var cb = <Function>arguments[arguments.length-1];
+      if (arguments.length === 3) {
+        id = selector;
+        selector = undefined;
+      }
+      self.getElementId(id, selector).then(handleResult).catch(function (err:Error) { cb(err); });
+      function handleResult(id:string): void {
+        self.elementIdCssProperty(id, property, function(err: Error, result: any): void {
+          if (err) return cb(err, result);
+          console.log(`elementIdCssProperty(${id}) => ${JSON.stringify(result)}`);
+          result = parseCSS([result], property);
+          console.log(`After parsing: ${JSON.stringify(result)}`);
+          cb(err, result.parsed);
         });
       }
     });

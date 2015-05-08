@@ -4,6 +4,7 @@
   "description": "Dependencies for our Cucumber automation layer",
   "dependencies": {
     "bluebird": "2.3.11",
-    "chai": "2.2.0"
+    "chai": "2.2.0",
+    "webdriverio": "2.4.5"
   }
 }

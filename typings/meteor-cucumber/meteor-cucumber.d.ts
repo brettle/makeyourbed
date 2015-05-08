@@ -6,6 +6,22 @@ declare module "meteor-cucumber" {
     ELEMENT: string;
   }
 
+  interface ParsedCssValue {
+    type:string;
+    hex?:string;
+    rgba?:string;
+    alpha?:number;
+    string?:string;
+    unit?:string;
+    value?:any;
+  }
+
+  interface CssValue {
+    property:string;
+    value:string;
+    parsed:ParsedCssValue;
+  }
+
   interface WebdriverIO<T> extends Promise<T>{
     url(url: string): WebdriverIO<T>;
     waitForVisible(text: string): WebdriverIO<T>;
@@ -18,6 +34,8 @@ declare module "meteor-cucumber" {
     elementIdElements(id:string, selector: string, callback:(err:Error, result:any) => void): void;
     elementIdText(id: string, callback:(err:Error, result:any) => void): void;
     elementIdText(id: string): WebdriverIO<string>;
+    elementIdCssProperty(id:string, property:string, callback:(err:Error, result:any) => void): void;
+    elementIdCssProperty(id: string, property:string): WebdriverIO<CssValue>;
     elementIdElement(id: string, selector: string, callback:(err:Error, result:any) => void): void;
     elementIdElement(id: string, selector: string): WebdriverIO<WebElement>;
     addCommand(cmd: string, cb: Function): void;
@@ -27,6 +45,8 @@ declare module "meteor-cucumber" {
     getElementId(selector: string): WebdriverIO<string>;
     getElementIdText(id: string, selector: string): WebdriverIO<string>;
     getElementIdText(selector: string): WebdriverIO<string>;
+    getElementIdCssProperty(id:string, selector:string, property:string): WebdriverIO<ParsedCssValue>;
+    getElementIdCssProperty(selector:string, property:string): WebdriverIO<ParsedCssValue>;
     get(propName: string): WebdriverIO<any>;
   }
 
