@@ -67,7 +67,7 @@ function defineSteps() {
                 return isNaN(v) ? 0 : v;
               }).
               catch(function () { return 0; }),
-            delayed: (<any>self.browser.getElementIdText(id, './details/*[@class="delayed_value"]')).
+            delayed: (<any>self.browser.getElementIdText(id, './details//*[@class="delayed_value"]')).
               then(function (s:string) {
                 var v:number = Math.abs(parseFloat(s));
                 console.log(`delayed: s=${s}, v=${v}`);
@@ -116,6 +116,15 @@ function defineSteps() {
         all();
       });
 
+      self.Then(/^each action should contain a progress detail indicating the value of reaching the target by a deadline$/, function () {
+        var self = <MyWorld>this;
+        return self.browser.getElementIds(`${self.listPath}/li`).
+          map(function(id:string) {
+            return (self.browser.getElementIdText(id, './details/*[@class="progress"]')).
+              should.eventually.match(/(\+|-)\d+.* if you .* (by |today|this (week|month|year))/);
+            }).
+          all();
+        });
 }
 
 export = defineSteps;

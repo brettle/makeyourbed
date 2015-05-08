@@ -21,12 +21,16 @@ function defineHooks():void
         self.elementIdElements(id, selector, handleResult);
       }
       function handleResult(err:Error, result:any): void {
-        if (err) return cb(err, result);
-        var ids:string[] = [];
-        for (var i = 0; i < result.value.length; i++) {
-          ids.push(result.value[i].ELEMENT);
+        if (err)
+          cb(err, result);
+        else {
+          var ids:string[] = [];
+          for (var i = 0; i < result.value.length; i++) {
+            ids.push(result.value[i].ELEMENT);
+          }
+          cb(err, ids);
         }
-        cb(err, ids);
+        return;
       }
     });
     self.browser.getElementIds = <any>Promise.promisify(self.browser.getElementIds);
@@ -43,9 +47,15 @@ function defineHooks():void
         self.elementIdElement(id, selector, handleResult);
       }
       function handleResult(err:Error, result:any): void {
-        if (err) return cb(err, result);
-        if (!result) return cb(new Error("No element matching id=${id} and selector=${selector}"), null);
-        cb(err, result.value.ELEMENT);
+        if (err) {
+          console.log(`err = ${JSON.stringify(err)}`);
+          cb(err, result);
+        }
+        else if (!result)
+          cb(new Error("No element matching id=${id} and selector=${selector}"), null);
+        else
+          cb(err, result.value.ELEMENT);
+        return;
       }
     });
     self.browser.getElementId = <any>Promise.promisify(self.browser.getElementId);
@@ -56,8 +66,11 @@ function defineHooks():void
       self.getElementId(id, selector).then(handleResult).catch(function (err:Error) { cb(err); });
       function handleResult(id:string): void {
         self.elementIdText(id, function(err: Error, result: any): void {
-          if (err) return cb(err, result);
-          cb(err, result.value);
+          if (err)
+            cb(err, result);
+          else
+            cb(err, result.value);
+          return;
         });
       }
     });
@@ -73,11 +86,15 @@ function defineHooks():void
       self.getElementId(id, selector).then(handleResult).catch(function (err:Error) { cb(err); });
       function handleResult(id:string): void {
         self.elementIdCssProperty(id, property, function(err: Error, result: any): void {
-          if (err) return cb(err, result);
-          console.log(`elementIdCssProperty(${id}) => ${JSON.stringify(result)}`);
-          result = parseCSS([result], property);
-          console.log(`After parsing: ${JSON.stringify(result)}`);
-          cb(err, result.parsed);
+          if (err)
+            cb(err, result);
+          else {
+            console.log(`elementIdCssProperty(${id}) => ${JSON.stringify(result)}`);
+            result = parseCSS([result], property);
+            console.log(`After parsing: ${JSON.stringify(result)}`);
+            cb(err, result.parsed);
+          }
+          return;
         });
       }
     });

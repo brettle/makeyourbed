@@ -27,9 +27,8 @@ Feature: Track microlives
 
   Scenario Outline:
     When I look at the <do_or_dont> list
-    And each action should have a short summary
-    And each action should contain a progress detail
-    And each progress detail should indicate the value of reaching the target by a deadline
+    Then each action should have a short summary
+    And each action should contain a progress detail indicating the value of reaching the target by a deadline
 
     Examples:
     | do_or_dont |
