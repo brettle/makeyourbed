@@ -47,11 +47,12 @@ declare module "meteor-cucumber" {
     getElementIdText(selector: string): WebdriverIO<string>;
     getElementIdCssProperty(id:string, selector:string, property:string): WebdriverIO<ParsedCssValue>;
     getElementIdCssProperty(selector:string, property:string): WebdriverIO<ParsedCssValue>;
+    webdrivercss(name:string, optionArray:WebdriverCSSOptionBase[]);
     get(propName: string): WebdriverIO<any>;
   }
 
   interface DdpClient {
-    callAsync(method: string, args: any[]): Promise<DdpClient>;
+    call(method: string, ...args: any[]): Promise<DdpClient>;
   }
 
   interface StepDefinitionCode {
@@ -76,4 +77,23 @@ declare module "meteor-cucumber" {
     ddp: DdpClient;
     browser: WebdriverIO<any>;
   }
+
+  interface WebdriverCSSOptionBase {
+    name:string;
+    exclude?:string[]|Object[];
+    hide?:string[];
+    remove?:string[];
+  }
+
+  interface WebdriverCSSSelectorOptions extends WebdriverCSSOptionBase {
+    elem:string;
+  }
+
+  interface WebdriverCSSRegionOptions extends WebdriverCSSOptionBase {
+    width:number;
+    height:number;
+    x:number;
+    y:number;
+  }
+
 }

@@ -5,6 +5,7 @@
   "dependencies": {
     "bluebird": "2.3.11",
     "chai": "2.2.0",
-    "webdriverio": "2.4.5"
+    "webdriverio": "2.4.5",
+    "webdrivercss": "1.1.3"
   }
 }

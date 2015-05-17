@@ -25,7 +25,7 @@ function defineSteps() {
   self.Given(/^I am a new user$/, function () {
     var self = <mc.World>this;
     // no callbacks! DDP has been promisified so you can just return it
-    return self.ddp.callAsync('reset', []); // this.ddp is a connection to the mirror
+    return self.ddp.call('reset'); // this.ddp is a connection to the mirror
   });
 
   self.When(/^I navigate to "([^"]*)"$/, function (relativePath:string) {
@@ -61,11 +61,13 @@ function defineSteps() {
       map(function(id:string) {
           return Promise.props(<Value>{
             immediate: (<any>self.browser.getElementIdText(id, './details/summary/*[@class="immediate_value"]')).
+              catch(function (err) {
+                return '0';
+              }).
               then(function (s:string) {
                 var v:number = Math.abs(parseFloat(s));
                 return isNaN(v) ? 0 : v;
-              }).
-              catch(function () { return 0; }),
+              }),
             delayed: (<any>self.browser.getElementIdText(id, './details//*[@class="delayed_value"]')).
               then(function (s:string) {
                 var v:number = Math.abs(parseFloat(s));
@@ -88,20 +90,31 @@ function defineSteps() {
     self.Then(/^each action has a (green|red) checkbox to its left$/, function (color:string) {
       var self = <MyWorld>this;
       var colorRegExp:RegExp;
+      require('webdrivercss').init(self.browser);
+      self.browser.webdrivercss = <any>Promise.promisify(self.browser.webdrivercss);
 
-      if (color === 'red') {
-        colorRegExp = /#[89a-f][0-9a-f]0000/;
-      }
-      else {
-        colorRegExp = /#00[89a-f][0-9a-f]00/;
-      }
-      return self.browser.getElementIds(`${self.listPath}/li`).
-        map(function(id:string) {
-          return (self.browser.getElementIdCssProperty(id, './details/preceding-sibling::*/descendant-or-self::input[@type="checkbox"]', 'color')).
-            should.eventually.have.property('hex').match(colorRegExp);
-          }).
-        all();
+      var lisXpath:string = `${self.listPath}/li`;
+      return self.browser.getElementIds(lisXpath).then(function (ids:string[]) {
+        var selectorOptsArray:mc.WebdriverCSSSelectorOptions[] = [];
+        var names:string[] = [];
+        for (let i = 0; i < ids.length; i++) {
+          var liXpath = `${lisXpath}[position()=${i+1}]`;
+          var detailsXpath = `${liXpath}/details`;
+          names.push(`${i+1}`);
+          selectorOptsArray.push({
+            name: `${i+1}`,
+            elem: liXpath,
+            exclude: [detailsXpath]
+          });
+        }        return self.browser.webdrivercss(color, selectorOptsArray).
+          then(function(res) {
+            names.forEach(function(name:string) {
+              res[name].length.should.equal(1);
+              res[name][0].isWithinMisMatchTolerance.should.be.true;
+            });
+          });
       });
+    });
 
     self.Then(/^each action should have a short summary$/, function () {
       var self = <MyWorld>this;
@@ -111,17 +124,17 @@ function defineSteps() {
             should.eventually.exist;
           }).
         all();
-      });
+    });
 
-      self.Then(/^each action should contain a progress detail indicating the value of reaching the target by a deadline$/, function () {
-        var self = <MyWorld>this;
-        return self.browser.getElementIds(`${self.listPath}/li`).
-          map(function(id:string) {
-            return (self.browser.getElementIdText(id, './details/*[@class="progress"]')).
-              should.eventually.match(/(\+|-)\d+.* if you .* (by |today|this (week|month|year))/);
-            }).
-          all();
-        });
+    self.Then(/^each action should contain a progress detail indicating the value of reaching the target by a deadline$/, function () {
+      var self = <MyWorld>this;
+      return self.browser.getElementIds(`${self.listPath}/li`).
+        map(function(id:string) {
+          return (self.browser.getElementIdText(id, './details/*[@class="progress"]')).
+            should.eventually.match(/(\+|-)\d+.* if you .* (by |today|this (week|month|year))/);
+          }).
+        all();
+    });
 }
 
 export = defineSteps;

@@ -62,7 +62,9 @@ function defineHooks():void
     self.browser.addCommand('getElementIdText', function(id:string, selector:string) {
       var self = <mc.WebdriverIO<any>>this;
       var cb = <Function>arguments[arguments.length-1];
-      self.getElementId(id, selector).then(handleResult).catch(function (err:Error) { cb(err); });
+      self.getElementId(id, selector).then(handleResult).catch(function (err:Error) {
+        cb(err);
+      });
       function handleResult(id:string): void {
         self.elementIdText(id, function(err: Error, result: any): void {
           if (err)

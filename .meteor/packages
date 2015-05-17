@@ -8,6 +8,5 @@ meteor-platform
 autopublish
 insecure
 xolvio:cucumber
-xolvio:webdriver
 meteortypescript:typescript-libs
 meteortypescript:compiler

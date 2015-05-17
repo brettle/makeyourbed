@@ -1,8 +1,30 @@
 /* CSS declarations go here */
-.do li input {
+.do li input[type="checkbox"] + label {
+  color: white;
+  text-shadow:
+    1px 1px 0 green,
+    -1px 1px 0 green,
+    1px -1px 0 green,
+    -1px -1px 0 green;
+}
+
+.do li input[type="checkbox"]:checked + label {
   color: green;
 }
 
-.dont li input {
+.dont li input[type="checkbox"] + label {
+  color: white;
+  text-shadow:
+    1px 1px 0 red,
+    -1px 1px 0 red,
+    1px -1px 0 red,
+    -1px -1px 0 red;
+}
+
+.dont li input[type="checkbox"]:checked + label {
   color: red;
+}
+
+li input[type="checkbox"] {
+  display: none;
 }

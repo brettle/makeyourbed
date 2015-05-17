@@ -15,11 +15,13 @@ Feature: Track microlives
     Then I see a Do list
     And I see a Don't list
 
+  @dev
   Scenario:
     When I look at the Do list
     Then it is ordered by descending immediate value and then by descending delayed value
     And each action has a green checkbox to its left
 
+  @dev
   Scenario:
     When I look at the Don't list
     Then it is ordered by descending absolute immediate value and then by descending absolute delayed value
