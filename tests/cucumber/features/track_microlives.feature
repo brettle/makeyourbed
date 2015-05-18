@@ -10,6 +10,7 @@ Feature: Track microlives
     Given I am a new user
     And I navigate to "/"
 
+  @dev
   Scenario:
     When I look at the page
     Then I see a Do list
@@ -27,6 +28,7 @@ Feature: Track microlives
     Then it is ordered by descending absolute immediate value and then by descending absolute delayed value
     And each action has a red checkbox to its left
 
+  @dev
   Scenario Outline:
     When I look at the <do_or_dont> list
     Then each action should have a short summary
