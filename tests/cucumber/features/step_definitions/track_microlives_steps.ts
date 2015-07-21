@@ -28,7 +28,7 @@ function defineSteps() {
     return self.ddp.call('reset'); // this.ddp is a connection to the mirror
   });
 
-  self.When(/^I navigate to "([^"]*)"$/, function (relativePath:string) {
+  self.When(new RegExp('^I navigate to "([^"]*)"$'), function (relativePath:string) {
     var self = <mc.World>this;
     // WebdriverIO supports Promises/A+ out the box, so you can return that too
     return self.browser. // this.browser is a pre-configured WebdriverIO + PhantomJS instance
@@ -40,14 +40,14 @@ function defineSteps() {
     return self.browser;
   });
 
-  self.Then(/^I see a (Do|Don't) list$/, function (listName:string) {
+  self.Then(new RegExp("^I see a (Do|Don't) list$"), function (listName:string) {
     var self = <mc.World>this;
     var listPath = listPathTemplate.replace("${listName}", listName);
     return self.browser.
       isExisting(listPath).should.eventually.be.true;
   });
 
-  self.When(/^I look at the (Do|Don't) list$/, function (listName:string) {
+  self.When(new RegExp("^I look at the (Do|Don't) list$"), function (listName:string) {
     var self = <MyWorld>this;
     self.listPath = listPathTemplate.replace("${listName}", listName);
     return self.browser.
@@ -57,10 +57,11 @@ function defineSteps() {
 
   self.Then(/^it is ordered by descending( absolute)? immediate value and then by descending( absolute)? delayed value$/, function (column:number, label:string) {
     var self = <MyWorld>this;
-    return self.browser.getElementIds(`${self.listPath}/li`).
-      map(function(id:string) {
+    return self.browser.elements(`${self.listPath}/li`).
+      then(function(result:mc.ElementsValue) {
+        return Promise.map<mc.WebElement, any>(result.value, function(elem:mc.WebElement) {
           return Promise.props(<Value>{
-            immediate: (<any>self.browser.getElementIdText(id, './details/summary/*[@class="immediate_value"]')).
+            immediate: (<any>self.browser.getElementIdText(elem.ELEMENT, './details/summary/*[@class="immediate_value"]')).
               catch(function (err) {
                 return '0';
               }).
@@ -68,14 +69,15 @@ function defineSteps() {
                 var v:number = Math.abs(parseFloat(s));
                 return isNaN(v) ? 0 : v;
               }),
-            delayed: (<any>self.browser.getElementIdText(id, './details//*[@class="delayed_value"]')).
+            delayed: (<any>self.browser.getElementIdText(elem.ELEMENT, './details//*[@class="delayed_value"]')).
               then(function (s:string) {
                 var v:number = Math.abs(parseFloat(s));
                 return v;
                 })
-          })
-        }).
-      all().
+          });
+        })
+        .all();
+      }).
       then(function (values:Value[]) {
         for (var i = 0; i < values.length-1; i++) {
           values[i+1].immediate.should.be.at.most(<number>(values[i].immediate));
@@ -106,7 +108,8 @@ function defineSteps() {
             elem: liXpath,
             exclude: [detailsXpath]
           });
-        }        return self.browser.webdrivercss(color, selectorOptsArray).
+        }
+        return self.browser.webdrivercss(color, selectorOptsArray).
           then(function(res) {
             names.forEach(function(name:string) {
               res[name].length.should.equal(1);
@@ -118,8 +121,8 @@ function defineSteps() {
 
     self.Then(/^each action should have a short summary$/, function () {
       var self = <MyWorld>this;
-      return self.browser.getElementIds(`${self.listPath}/li`).
-        map(function(id:string) {
+      return Promise.map<string, void>(self.browser.getElementIds(`${self.listPath}/li`),
+        function(id:string) {
           return (self.browser.getElementIdText(id, './details/summary')).
             should.eventually.exist;
           }).
@@ -128,8 +131,8 @@ function defineSteps() {
 
     self.Then(/^each action should contain a progress detail indicating the value of reaching the target by a deadline$/, function () {
       var self = <MyWorld>this;
-      return self.browser.getElementIds(`${self.listPath}/li`).
-        map(function(id:string) {
+      return Promise.map<string, void>(self.browser.getElementIds(`${self.listPath}/li`),
+        function(id:string) {
           return (self.browser.getElementIdText(id, './details/*[@class="progress"]')).
             should.eventually.match(/(\+|-)\d+.* if you .* (by |today|this (week|month|year))/);
           }).

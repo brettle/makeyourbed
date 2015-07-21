@@ -22,15 +22,24 @@ declare module "meteor-cucumber" {
     parsed:ParsedCssValue;
   }
 
+  interface ElementsValue {
+    value:WebElement[];
+  }
+
+  interface ElementValue {
+    value:WebElement;
+  }
   interface WebdriverIO<T> extends Promise<T>{
     url(url: string): WebdriverIO<T>;
     waitForVisible(text: string): WebdriverIO<T>;
     getTitle(): WebdriverIO<string>;
     getText(selector: string): WebdriverIO<string>;
     isExisting(selector: string): WebdriverIO<boolean>;
-    elements(selector: string): WebdriverIO<WebElement[]>;
+    elements(selector: string): WebdriverIO<ElementsValue>;
     elements(selector: string, callback:(err:Error, result:any) => void): void;
+    element(selector: string): WebdriverIO<ElementValue>;
     element(selector: string, callback:(err:Error, result:any) => void): void;
+    elementIdElements(id:string, selector: string): WebdriverIO<WebElement[]>;
     elementIdElements(id:string, selector: string, callback:(err:Error, result:any) => void): void;
     elementIdText(id: string, callback:(err:Error, result:any) => void): void;
     elementIdText(id: string): WebdriverIO<string>;
@@ -38,7 +47,7 @@ declare module "meteor-cucumber" {
     elementIdCssProperty(id: string, property:string): WebdriverIO<CssValue>;
     elementIdElement(id: string, selector: string, callback:(err:Error, result:any) => void): void;
     elementIdElement(id: string, selector: string): WebdriverIO<WebElement>;
-    addCommand(cmd: string, cb: Function): void;
+    addCommand(cmd: string, cb: Function, override?: boolean): void;
     getElementIds(id: string, selector: string): WebdriverIO<string[]>;
     getElementIds(selector: string): WebdriverIO<string[]>;
     getElementId(id: string, selector: string): WebdriverIO<string>;

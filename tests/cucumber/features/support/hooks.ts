@@ -13,91 +13,58 @@ function defineHooks():void
     var self = <mc.World>this;
     self.browser.addCommand('getElementIds', function(id:string, selector:string) {
       var self = <mc.WebdriverIO<any>>this;
-      var cb = <Function>arguments[arguments.length-1];
-      if (arguments.length === 2) {
+      if (arguments.length === 1) {
         selector = id;
-        self.elements(selector, handleResult);
+        return self.elements(selector).then(handleResult);
       } else {
-        self.elementIdElements(id, selector, handleResult);
+        return self.elementIdElements(id, selector).then(handleResult);
       }
-      function handleResult(err:Error, result:any): void {
-        if (err)
-          cb(err, result);
-        else {
-          var ids:string[] = [];
-          for (var i = 0; i < result.value.length; i++) {
-            ids.push(result.value[i].ELEMENT);
-          }
-          cb(err, ids);
+      function handleResult(result:any): string[] {
+        var ids:string[] = [];
+        for (var i = 0; i < result.value.length; i++) {
+          ids.push(result.value[i].ELEMENT);
         }
-        return;
+        return ids;
       }
-    });
-    self.browser.getElementIds = <any>Promise.promisify(self.browser.getElementIds);
+    }, true);
 
     self.browser.addCommand('getElementId', function(id:string, selector:string) {
       var self = <mc.WebdriverIO<any>>this;
-      var cb = <Function>arguments[arguments.length-1];
-      if (arguments.length === 2 || selector == undefined) {
+      if (arguments.length === 1 || selector == undefined) {
         selector = id;
         id = null;
-        self.element(selector, handleResult);
+        return self.element(selector).then(handleResult);
       } else {
-        self.elementIdElement(id, selector, handleResult);
+        return self.elementIdElement(id, selector).then(handleResult);
       }
-      function handleResult(err:Error, result:any): void {
-        if (err) {
-          console.log(`err = ${JSON.stringify(err)}`);
-          cb(err, result);
-        }
-        else if (!result)
-          cb(new Error("No element matching id=${id} and selector=${selector}"), null);
+      function handleResult(result:any): string {
+        if (!result)
+          throw new Error("No element matching id=${id} and selector=${selector}");
         else
-          cb(err, result.value.ELEMENT);
-        return;
+          return result.value.ELEMENT;
       }
-    });
-    self.browser.getElementId = <any>Promise.promisify(self.browser.getElementId);
+    }, true);
 
     self.browser.addCommand('getElementIdText', function(id:string, selector:string) {
       var self = <mc.WebdriverIO<any>>this;
-      var cb = <Function>arguments[arguments.length-1];
-      self.getElementId(id, selector).then(handleResult).catch(function (err:Error) {
-        cb(err);
+      return self.getElementId(id, selector).then(function (id2:string) {
+        return self.elementIdText(id2).then(function (result:any) { return result.value; });
       });
-      function handleResult(id:string): void {
-        self.elementIdText(id, function(err: Error, result: any): void {
-          if (err)
-            cb(err, result);
-          else
-            cb(err, result.value);
-          return;
-        });
-      }
-    });
-    self.browser.getElementIdText = <any>Promise.promisify(self.browser.getElementIdText);
+    }, true);
 
     self.browser.addCommand('getElementIdCssProperty', function(id:string, selector:string, property: string) {
       var self = <mc.WebdriverIO<any>>this;
-      var cb = <Function>arguments[arguments.length-1];
       if (arguments.length === 3) {
         id = selector;
         selector = undefined;
       }
-      self.getElementId(id, selector).then(handleResult).catch(function (err:Error) { cb(err); });
-      function handleResult(id:string): void {
-        self.elementIdCssProperty(id, property, function(err: Error, result: any): void {
-          if (err)
-            cb(err, result);
-          else {
-            result = parseCSS([result], property);
-            cb(err, result.parsed);
-          }
-          return;
+      return self.getElementId(id, selector).then(function (id2:string) {
+        return self.elementIdCssProperty(id2, property).then(function (result:any) {
+          result = parseCSS([result], property);
+          return result.parsed;
         });
-      }
-    });
-    self.browser.getElementIdText = <any>Promise.promisify(self.browser.getElementIdText);
+      });
+    }, true);
 
     cb();
   });
