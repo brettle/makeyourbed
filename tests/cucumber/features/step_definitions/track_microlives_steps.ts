@@ -58,27 +58,25 @@ function defineSteps() {
   self.Then(/^it is ordered by descending( absolute)? immediate value and then by descending( absolute)? delayed value$/, function (column:number, label:string) {
     var self = <MyWorld>this;
     return self.browser.elements(`${self.listPath}/li`).
-      then(function(result:mc.ElementsValue) {
-        return Promise.map<mc.WebElement, any>(result.value, function(elem:mc.WebElement) {
-          return Promise.props(<Value>{
+      then( (result:mc.ElementsValue) =>
+        Promise.map<mc.WebElement, any>(result.value, (elem:mc.WebElement) =>
+          Promise.props(<Value>{
             immediate: (<any>self.browser.getElementIdText(elem.ELEMENT, './details/summary/*[@class="immediate_value"]')).
-              catch(function (err) {
-                return '0';
-              }).
-              then(function (s:string) {
+              catch( (err) => '0').
+              then((s:string) => {
                 var v:number = Math.abs(parseFloat(s));
                 return isNaN(v) ? 0 : v;
               }),
             delayed: (<any>self.browser.getElementIdText(elem.ELEMENT, './details//*[@class="delayed_value"]')).
-              then(function (s:string) {
+              then( (s:string) => {
                 var v:number = Math.abs(parseFloat(s));
                 return v;
                 })
-          });
-        })
-        .all();
-      }).
-      then(function (values:Value[]) {
+          })
+        )
+        .all()
+      ).
+      then( (values:Value[]) => {
         for (var i = 0; i < values.length-1; i++) {
           values[i+1].immediate.should.be.at.most(<number>(values[i].immediate));
           if (values[i+1].immediate === values[i].immediate) {
@@ -96,7 +94,7 @@ function defineSteps() {
       self.browser.webdrivercss = <any>Promise.promisify(self.browser.webdrivercss);
 
       var lisXpath:string = `${self.listPath}/li`;
-      return self.browser.getElementIds(lisXpath).then(function (ids:string[]) {
+      return self.browser.getElementIds(lisXpath).then( (ids:string[]) => {
         var selectorOptsArray:mc.WebdriverCSSSelectorOptions[] = [];
         var names:string[] = [];
         for (let i = 0; i < ids.length; i++) {
@@ -110,7 +108,7 @@ function defineSteps() {
           });
         }
         return self.browser.webdrivercss(color, selectorOptsArray).
-          then(function(res) {
+          then( (res) => {
             names.forEach(function(name:string) {
               res[name].length.should.equal(1);
               res[name][0].isWithinMisMatchTolerance.should.be.true;
@@ -122,20 +120,15 @@ function defineSteps() {
     self.Then(/^each action should have a short summary$/, function () {
       var self = <MyWorld>this;
       return Promise.map<string, void>(self.browser.getElementIds(`${self.listPath}/li`),
-        function(id:string) {
-          return (self.browser.getElementIdText(id, './details/summary')).
-            should.eventually.exist;
-          }).
+         (id:string) => self.browser.getElementIdText(id, './details/summary').should.eventually.exist).
         all();
     });
 
     self.Then(/^each action should contain a progress detail indicating the value of reaching the target by a deadline$/, function () {
       var self = <MyWorld>this;
       return Promise.map<string, void>(self.browser.getElementIds(`${self.listPath}/li`),
-        function(id:string) {
-          return (self.browser.getElementIdText(id, './details/*[@class="progress"]')).
-            should.eventually.match(/(\+|-)\d+.* if you .* (by |today|this (week|month|year))/);
-          }).
+        (id:string) => self.browser.getElementIdText(id, './details/*[@class="progress"]').
+            should.eventually.match(/(\+|-)\d+.* if you .* (by |today|this (week|month|year))/)).
         all();
     });
 }
