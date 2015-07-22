@@ -18,8 +18,13 @@ interface Value {
 
 'use strict';
 function defineSteps() {
+
+  function containsClass(c:string):string {
+    return `contains(concat(' ', normalize-space(@class), ' '), ' ${c} ')`;
+  }
+
   var self = <mc.StepDefinitions>this;
-  var listPathTemplate = '//text()[contains(.,"${listName}:")]/../following-sibling::ol[1]';
+  var listPathTemplate = '//text()[contains(.,"${listName}:")]/../following-sibling::ul[1]';
   // You can use normal require here, cucumber is NOT run in a Meteor context (by design)
 
   self.Given(/^I am a new user$/, function () {
@@ -57,26 +62,26 @@ function defineSteps() {
 
   self.Then(/^it is ordered by descending( absolute)? immediate value and then by descending( absolute)? delayed value$/, function (column:number, label:string) {
     var self = <MyWorld>this;
+    var values:Value[] = [];
     return self.browser.elements(`${self.listPath}/li`).
       then( (result:mc.ElementsValue) =>
-        Promise.map<mc.WebElement, any>(result.value, (elem:mc.WebElement) =>
+        Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
           Promise.props(<Value>{
-            immediate: (<any>self.browser.getElementIdText(elem.ELEMENT, './details/summary/*[@class="immediate_value"]')).
+            immediate: (<any>self.browser.getElementIdText(elem.ELEMENT, `.//*[${containsClass("immediate_value")}]`)).
               catch( (err) => '0').
               then((s:string) => {
                 var v:number = Math.abs(parseFloat(s));
                 return isNaN(v) ? 0 : v;
               }),
-            delayed: (<any>self.browser.getElementIdText(elem.ELEMENT, './details//*[@class="delayed_value"]')).
+            delayed: (<any>self.browser.webElement(elem).click('*=Details').webElement(elem).waitForVisible('.delayed_value').webElement(elem).getText('.delayed_value')).
               then( (s:string) => {
                 var v:number = Math.abs(parseFloat(s));
-                return v;
+                return self.browser.webElement(elem).click('*=Details').webElement(elem).waitForVisible('.details', 500, true).then(()=>v);
                 })
-          })
+          }).then((v:Value) => (values.push(v) || true) )
         )
-        .all()
       ).
-      then( (values:Value[]) => {
+      then( () => {
         for (var i = 0; i < values.length-1; i++) {
           values[i+1].immediate.should.be.at.most(<number>(values[i].immediate));
           if (values[i+1].immediate === values[i].immediate) {
@@ -99,7 +104,7 @@ function defineSteps() {
         var names:string[] = [];
         for (let i = 0; i < ids.length; i++) {
           var liXpath = `${lisXpath}[position()=${i+1}]`;
-          var detailsXpath = `${liXpath}/details`;
+          var detailsXpath = `${liXpath}/div`;
           names.push(`${i+1}`);
           selectorOptsArray.push({
             name: `${i+1}`,
@@ -119,17 +124,20 @@ function defineSteps() {
 
     self.Then(/^each action should have a short summary$/, function () {
       var self = <MyWorld>this;
-      return Promise.map<string, void>(self.browser.getElementIds(`${self.listPath}/li`),
-         (id:string) => self.browser.getElementIdText(id, './details/summary').should.eventually.exist).
-        all();
+      return self.browser.elements(`//ul/li`).
+        then( (result:mc.ElementsValue) =>
+          Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
+            self.browser.webElement(elem).getText('./div/div').should.eventually.exist));
     });
 
-    self.Then(/^each action should contain a progress detail indicating the value of reaching the target by a deadline$/, function () {
+    self.When(/^each action should have a details link which displays the value of reaching the target by a deadline$/, function () {
       var self = <MyWorld>this;
-      return Promise.map<string, void>(self.browser.getElementIds(`${self.listPath}/li`),
-        (id:string) => self.browser.getElementIdText(id, './details/*[@class="progress"]').
-            should.eventually.match(/(\+|-)\d+.* if you .* (by |today|this (week|month|year))/)).
-        all();
+      return self.browser.elements(`//ul/li`).
+        then( (result:mc.ElementsValue) =>
+          Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
+            self.browser.webElement(elem).click('*=Details').webElement(elem).waitForVisible('.delayed_value').webElement(elem).getText('.details').
+            should.eventually.match(/(\+|-)?\d+(\.\d*)?.* if you .* (by |today|this (week|month|year))/).
+            webElement(elem).click('*=Details').webElement(elem).waitForVisible('.details', 500, true)));
     });
 }
 

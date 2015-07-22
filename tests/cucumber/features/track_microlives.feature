@@ -15,6 +15,8 @@ Feature: Track microlives
     When I look at the page
     Then I see a Do list
     And I see a Don't list
+    And each action should have a short summary
+    And each action should have a details link which displays the value of reaching the target by a deadline
 
   @dev
   Scenario:
@@ -27,17 +29,6 @@ Feature: Track microlives
     When I look at the Don't list
     Then it is ordered by descending absolute immediate value and then by descending absolute delayed value
 #    And each action has a red checkbox to its left
-
-  @dev
-  Scenario Outline:
-    When I look at the <do_or_dont> list
-    Then each action should have a short summary
-    And each action should contain a progress detail indicating the value of reaching the target by a deadline
-
-    Examples:
-    | do_or_dont |
-    | Do         |
-    | Don't      |
 
   Scenario Outline:
     When I click the checkbox for "<action>", which does not affect my score

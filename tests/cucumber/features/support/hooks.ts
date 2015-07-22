@@ -48,8 +48,12 @@ function defineHooks():void
     self.browser.addCommand('getElementIdText', function(id:string, selector:string) {
       var self = <mc.WebdriverIO<any>>this;
       return self.getElementId(id, selector).then(
-        (id2:string) => self.elementIdText(id2).then(
-          (result:any) => result.value));
+        (id2:string) => {
+          return self.elementIdText(id2).then(
+            (result:any) => {
+              return result.value;
+              });
+        });
     }, true);
 
     self.browser.addCommand('getElementIdCssProperty', function(id:string, selector:string, property: string) {
@@ -62,6 +66,8 @@ function defineHooks():void
         (id2:string) => self.elementIdCssProperty(id2, property).then(
           (result:any) => parseCSS([result], property).parsed));
     }, true);
+
+    self.browser.addCommand('webElement', (elem:mc.WebElement) => ({ value: elem }), true);
 
     cb();
   });

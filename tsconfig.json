@@ -14,6 +14,7 @@
         "!./tests/cucumber/node_modules/**/*.ts"
     ],
     "files": [
+        "./client/body_helper.ts",
         "./makeyourbed.ts",
         "./server/inject-bootstrap-meta.ts",
         "./tests/cucumber/features/step_definitions/sample_steps.ts",
@@ -25,6 +26,7 @@
         "./typings/chai/chai-should.d.ts",
         "./typings/chai/chai.d.ts",
         "./typings/cucumber/cucumber.d.ts",
+        "./typings/initial-inject/initial-inject.d.ts",
         "./typings/inject-initial/inject-initial.d.ts",
         "./typings/meteor-cucumber/meteor-cucumber.d.ts",
         "./typings/meteor/all-definitions.d.ts",

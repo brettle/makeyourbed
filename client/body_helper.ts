@@ -1,0 +1,54 @@
+/// <reference path="../typings/meteor/meteor.d.ts"/>
+
+var bodyTemplate: Template = Template["body"];
+bodyTemplate.helpers({
+  dos: [
+    {
+      index: 0,
+      immediate: {
+        description: 'Drink a can of Coke',
+        value: 1
+      },
+      delayed: {
+        description: 'drink 1 can of coke today',
+        value: 1.5
+      }
+    },
+    {
+      index: 1,
+      immediate: {
+        description: 'Drink a cup of coffee',
+        value: 1
+      },
+      delayed: {
+        description: 'drink 1 cup of coffee today',
+        value: 1
+      }
+    }
+  ],
+  donts: [
+  {
+    index: 0,
+    immediate: {
+      description: 'Smoke a cigarette',
+      value: -1.5
+    },
+    delayed: {
+      description: 'smoke 1 cigarette today',
+      value: 1.5
+    }
+  },
+  {
+    index: 1,
+    immediate: {
+      description: 'Smoke a cigar',
+      value: 0
+    },
+    delayed: {
+      description: 'smoke 2 cigars today',
+      value: 1.5
+    }
+  }
+
+  ]
+});

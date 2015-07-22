@@ -31,12 +31,14 @@ declare module "meteor-cucumber" {
   }
   interface WebdriverIO<T> extends Promise<T>{
     url(url: string): WebdriverIO<T>;
-    waitForVisible(text: string): WebdriverIO<T>;
+    click(selector: string): WebdriverIO<T>;
+    waitForVisible(selector: string, ms?:number, reverse?:boolean): WebdriverIO<T>;
     getTitle(): WebdriverIO<string>;
     getText(selector: string): WebdriverIO<string>;
     isExisting(selector: string): WebdriverIO<boolean>;
     elements(selector: string): WebdriverIO<ElementsValue>;
     elements(selector: string, callback:(err:Error, result:any) => void): void;
+    webElement(elem: WebElement): WebdriverIO<ElementValue>;
     element(selector: string): WebdriverIO<ElementValue>;
     element(selector: string, callback:(err:Error, result:any) => void): void;
     elementIdElements(id:string, selector: string): WebdriverIO<WebElement[]>;

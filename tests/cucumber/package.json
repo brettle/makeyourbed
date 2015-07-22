@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Dependencies for our Cucumber automation layer",
   "dependencies": {
-    "webdriverio": "~3.0.5"
+    "webdriverio": "~3"
   }
 }

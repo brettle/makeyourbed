@@ -28,3 +28,7 @@
 li input[type="checkbox"] {
   display: none;
 }
+
+ul.panel-group {
+  list-style-type: none;
+}

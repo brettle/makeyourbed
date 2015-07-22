@@ -6,66 +6,34 @@
   <h1>Make Your Bed</h1>
 
   <h2>Do:</h2>
-  <ol class="do">
-    <li>
-      <input id="do1" type="checkbox" /><label for="do1">&checkmark;</label>
-      <details>
-        <summary>
-          <span class="immediate_value">+1</span>
-          Drink a can of coke
-        </summary>
-        <span class="progress">
-          <span class="delayed_value">+1.5</span> microlife if you
-        drink 1 can of coke today
-        </span>
-      </details>
-    </li>
-    <li>
-      <input id="do2" type="checkbox" /><label for="do2">&checkmark;</label>
-      <details>
-        <summary>
-          <span class="immediate_value">+1</span>
-          Drink a cup of coffee
-        </summary>
-        <span class="progress">
-          <span class="delayed_value">+1</span> microlife if you
-            drink 1 cup of coffee today
-        </span>
-      </details>
-    </li>
-  </ol>
+  {{> activityList activities=dos id='do' label='&checkmark;'}}
 
   <h2>Don't:</h2>
-  <ol class="dont">
-    <li>
-      <input id="dont1" type="checkbox" /><label for="dont1">&cross;</label>
-      <details>
-        <summary>
-          <span class="immediate_value">-1.5</span>
-          Smoke a cigarette
-        </summary>
-        <span class="progress">
-          <span class="delayed_value">-1.5</span> microlife if you
-          smoke a cigarette today
-        </span>
-      </details>
-    </li>
-    <li>
-      <input id="dont2" type="checkbox" /><label for="dont2">&cross;</label>
-      <details>
-        <summary>
-          <span class="immediate_value"></span>
-          Smoke a cigar
-        </summary>
-        <span class="progress">
-          <span class="delayed_value">-1.5</span> microlife if you
-          smoke 2 cigars today
-        </span>
-      </details>
-    </li>
-  </ol>
-  {{> hello}}
+  {{> activityList activities=donts id='dont' label='&cross;'}}
 </body>
+
+<template name="activityList">
+  <ul id="{{id}}List" class="{{id}} panel-group" role="tablist" aria-multiselectable="true">
+    {{#each activities}}
+    <li class="panel panel-default" role="tab">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <input id="{{../id}}{{index}}" type="checkbox" /><label for="{{../id}}{{index}}">{{{../label}}}</label>
+          <span class="immediate_value badge">{{immediate.value}}</span>
+          {{immediate.description}}
+          <small><a role="button" data-toggle="collapse" data-parent="#{{../id}}List" href="#{{../id}}Details{{index}}" aria-expanded="true" aria-controls="{{../id}}Details{{index}}">Details...</a></small>
+        </h3>
+      </div>
+      <div id="{{../id}}Details{{index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{../id}}Summary{{index}}">
+        <div class="details panel-body">
+          <span class="delayed_value badge">{{delayed.value}}</span> microlife if you
+          {{delayed.description}}
+        </div>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+</template>
 
 <template name="hello">
   <button>Click Me</button>
