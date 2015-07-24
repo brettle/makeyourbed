@@ -1,7 +1,7 @@
 /// <reference path="../chai-as-promised/chai-as-promised.d.ts"/>
 /// <reference path="../bluebird/bluebird.d.ts"/>
 
-declare module "meteor-cucumber" {
+declare module MeteorCucumber {
   interface WebElement {
     ELEMENT: string;
   }
@@ -106,5 +106,16 @@ declare module "meteor-cucumber" {
     x:number;
     y:number;
   }
+}
 
+// Allow 'chai-as-promised' assertions to chain with WebdriverIO promises.
+// NOTE: Since Chai doesn't export the Assertion interface, it's not clear whether
+// Typescript will continue to allow me to merge this interface declaration with it.
+declare module Chai {
+  interface Assertion extends MeteorCucumber.WebdriverIO<any> {
+  }
+}
+
+declare module 'meteor-cucumber' {
+	export = MeteorCucumber;
 }

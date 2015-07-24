@@ -1,5 +1,4 @@
 /// <reference path="../../../../typings/meteor/node.d.ts"/>
-/// <reference path="../../../../typings/chai/chai-should.d.ts"/>
 /// <reference path="../../../../typings/meteor-cucumber/meteor-cucumber.d.ts"/>
 import mc = require('meteor-cucumber');
 import url = require('url');
@@ -12,7 +11,7 @@ function defineSteps() {
   self.Given(/^I am a new user$/, function () {
     var self = <mc.World>this;
     // no callbacks! DDP has been promisified so you can just return it
-    return self.ddp.callAsync('reset', []); // this.ddp is a connection to the mirror
+    return self.ddp.call('reset', []); // this.ddp is a connection to the mirror
   });
 
   self.When(/^I navigate to "([^"]*)"$/, function (relativePath) {

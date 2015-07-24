@@ -135,8 +135,8 @@ function defineSteps() {
       return self.browser.elements(`//ul/li`).
         then( (result:mc.ElementsValue) =>
           Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
-            (<any>self.browser.webElement(elem).click('*=Details').webElement(elem).waitForVisible('.delayed_value').webElement(elem).getText('.details').
-            should.eventually.match(/(\+|-)?\d+(\.\d*)?.* if you .* (by |today|this (week|month|year))/)).
+            self.browser.webElement(elem).click('*=Details').webElement(elem).waitForVisible('.delayed_value').webElement(elem).getText('.details').
+            should.eventually.match(/(\+|-)?\d+(\.\d*)?.* if you .* (by |today|this (week|month|year))/).
             webElement(elem).click('*=Details').webElement(elem).waitForVisible('.details', 500, true)));
     });
 }
