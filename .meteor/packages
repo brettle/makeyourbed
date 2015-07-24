@@ -10,5 +10,4 @@ insecure
 xolvio:cucumber
 meteortypescript:typescript-libs
 meteortypescript:compiler
-twbs:bootstrap
-meteorhacks:inject-initial
+brettle:bootstrap-with-injected-meta-tags
