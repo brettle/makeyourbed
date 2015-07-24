@@ -1,7 +1,7 @@
 /// <reference path="../../../../typings/meteor/node.d.ts"/>
 /// <reference path="../../../../typings/chai-as-promised/chai-as-promised.d.ts"/>
-/// <reference path="../../../../typings/chai/chai-should.d.ts"/>
 /// <reference path="../../../../typings/meteor-cucumber/meteor-cucumber.d.ts"/>
+/// <reference path="../../../../typings/bluebird/bluebird.d.ts"/>
 import mc = require('meteor-cucumber');
 import url = require('url');
 import chai = require('chai');
@@ -65,7 +65,7 @@ function defineSteps() {
     var values:Value[] = [];
     return self.browser.elements(`${self.listPath}/li`).
       then( (result:mc.ElementsValue) =>
-        Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
+        (<any>Promise).each(result.value, (elem:mc.WebElement) =>
           Promise.props(<Value>{
             immediate: (<any>self.browser.getElementIdText(elem.ELEMENT, `.//*[${containsClass("immediate_value")}]`)).
               catch( (err) => '0').
@@ -126,7 +126,7 @@ function defineSteps() {
       var self = <MyWorld>this;
       return self.browser.elements(`//ul/li`).
         then( (result:mc.ElementsValue) =>
-          Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
+          (<any>Promise).each(result.value, (elem:mc.WebElement) =>
             self.browser.webElement(elem).getText('./div/div').should.eventually.exist));
     });
 
@@ -134,9 +134,9 @@ function defineSteps() {
       var self = <MyWorld>this;
       return self.browser.elements(`//ul/li`).
         then( (result:mc.ElementsValue) =>
-          Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
-            self.browser.webElement(elem).click('*=Details').webElement(elem).waitForVisible('.delayed_value').webElement(elem).getText('.details').
-            should.eventually.match(/(\+|-)?\d+(\.\d*)?.* if you .* (by |today|this (week|month|year))/).
+          (<any>Promise).each(result.value, (elem:mc.WebElement) =>
+            (<any>self.browser.webElement(elem).click('*=Details').webElement(elem).waitForVisible('.delayed_value').webElement(elem).getText('.details').
+            should.eventually.match(/(\+|-)?\d+(\.\d*)?.* if you .* (by |today|this (week|month|year))/)).
             webElement(elem).click('*=Details').webElement(elem).waitForVisible('.details', 500, true)));
     });
 }

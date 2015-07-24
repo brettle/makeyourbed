@@ -1,8 +1,18 @@
 {
   "version": "v4",
-  "repo": "brettle/DefinitelyTyped",
+  "repo": "borisyankov/DefinitelyTyped",
   "ref": "master",
   "path": "typings",
   "bundle": "typings/tsd.d.ts",
-  "installed": {}
+  "installed": {
+    "chai/chai.d.ts": {
+      "commit": "977da240f263e88215a27cb44f2e31524ca07135"
+    },
+    "chai-as-promised/chai-as-promised.d.ts": {
+      "commit": "977da240f263e88215a27cb44f2e31524ca07135"
+    },
+    "bluebird/bluebird.d.ts": {
+      "commit": "977da240f263e88215a27cb44f2e31524ca07135"
+    }
+  }
 }

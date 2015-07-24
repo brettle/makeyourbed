@@ -23,7 +23,6 @@
         "./tests/cucumber/features/support/hooks.ts",
         "./typings/bluebird/bluebird.d.ts",
         "./typings/chai-as-promised/chai-as-promised.d.ts",
-        "./typings/chai/chai-should.d.ts",
         "./typings/chai/chai.d.ts",
         "./typings/cucumber/cucumber.d.ts",
         "./typings/initial-inject/initial-inject.d.ts",
@@ -51,6 +50,7 @@
         "./typings/meteor/smart-collections.d.ts",
         "./typings/meteor/underscore.d.ts",
         "./typings/meteor/underscore.string.d.ts",
+        "./typings/tsd.d.ts",
         "./zzz.ts-compiler.ts"
     ]
 }
