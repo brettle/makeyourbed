@@ -24,8 +24,6 @@
         "./typings/bluebird/bluebird.d.ts",
         "./typings/chai-as-promised/chai-as-promised.d.ts",
         "./typings/chai/chai.d.ts",
-        "./typings/cucumber/cucumber.d.ts",
-        "./typings/initial-inject/initial-inject.d.ts",
         "./typings/inject-initial/inject-initial.d.ts",
         "./typings/meteor-cucumber/meteor-cucumber.d.ts",
         "./typings/meteor/all-definitions.d.ts",

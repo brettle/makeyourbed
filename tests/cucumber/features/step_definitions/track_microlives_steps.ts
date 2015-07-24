@@ -65,7 +65,7 @@ function defineSteps() {
     var values:Value[] = [];
     return self.browser.elements(`${self.listPath}/li`).
       then( (result:mc.ElementsValue) =>
-        (<any>Promise).each(result.value, (elem:mc.WebElement) =>
+        Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
           Promise.props(<Value>{
             immediate: (<any>self.browser.getElementIdText(elem.ELEMENT, `.//*[${containsClass("immediate_value")}]`)).
               catch( (err) => '0').
@@ -126,7 +126,7 @@ function defineSteps() {
       var self = <MyWorld>this;
       return self.browser.elements(`//ul/li`).
         then( (result:mc.ElementsValue) =>
-          (<any>Promise).each(result.value, (elem:mc.WebElement) =>
+          Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
             self.browser.webElement(elem).getText('./div/div').should.eventually.exist));
     });
 
@@ -134,7 +134,7 @@ function defineSteps() {
       var self = <MyWorld>this;
       return self.browser.elements(`//ul/li`).
         then( (result:mc.ElementsValue) =>
-          (<any>Promise).each(result.value, (elem:mc.WebElement) =>
+          Promise.each<mc.WebElement>(result.value, (elem:mc.WebElement) =>
             (<any>self.browser.webElement(elem).click('*=Details').webElement(elem).waitForVisible('.delayed_value').webElement(elem).getText('.details').
             should.eventually.match(/(\+|-)?\d+(\.\d*)?.* if you .* (by |today|this (week|month|year))/)).
             webElement(elem).click('*=Details').webElement(elem).waitForVisible('.details', 500, true)));
