@@ -16,7 +16,6 @@
     "files": [
         "./client/body_helper.ts",
         "./makeyourbed.ts",
-        "./server/inject-bootstrap-meta.ts",
         "./tests/cucumber/features/step_definitions/sample_steps.ts",
         "./tests/cucumber/features/step_definitions/track_microlives_steps.ts",
         "./tests/cucumber/features/step_definitions/zzz.ts-compiler.ts",
@@ -24,7 +23,6 @@
         "./typings/bluebird/bluebird.d.ts",
         "./typings/chai-as-promised/chai-as-promised.d.ts",
         "./typings/chai/chai.d.ts",
-        "./typings/inject-initial/inject-initial.d.ts",
         "./typings/meteor-cucumber/meteor-cucumber.d.ts",
         "./typings/meteor/all-definitions.d.ts",
         "./typings/meteor/backbone.d.ts",
