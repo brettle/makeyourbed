@@ -3,7 +3,7 @@
 </head>
 
 <body>
-  <h1>Make Your Bed</h1>
+  <h1>Make Your Bed <small>Score: <a id="score" role="button" href="#" class="badge">1234</a></small></h1>
 
   <h2>Do:</h2>
   {{> activityList activities=dos id='do' label='&checkmark;'}}
@@ -15,24 +15,27 @@
 <template name="activityList">
   <ul id="{{id}}List" class="{{id}} panel-group" role="tablist" aria-multiselectable="true">
     {{#each activities}}
-    <li class="panel panel-default" role="tab">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <input id="{{../id}}{{index}}" type="checkbox" /><label for="{{../id}}{{index}}">{{{../label}}}</label>
-          <span class="immediate_value badge">{{immediate.value}}</span>
-          {{immediate.description}}
-          <small><a role="button" data-toggle="collapse" data-parent="#{{../id}}List" href="#{{../id}}Details{{index}}" aria-expanded="true" aria-controls="{{../id}}Details{{index}}">Details...</a></small>
-        </h3>
-      </div>
-      <div id="{{../id}}Details{{index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{../id}}Summary{{index}}">
-        <div class="details panel-body">
-          <span class="delayed_value badge">{{delayed.value}}</span> microlife if you
-          {{delayed.description}}
-        </div>
-      </div>
-    </li>
+      {{> activity}}
     {{/each}}
   </ul>
+</template>
+
+<template name="activity">
+  <li class="panel panel-default" role="tab">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <a role="button" href="#" class="immediate_value badge">{{immediate.value}}</a>
+        {{immediate.description}}
+        <small><a role="button" data-toggle="collapse" data-parent="#{{../id}}List" href="#{{../id}}Details{{index}}" aria-expanded="true" aria-controls="{{../id}}Details{{index}}">Details...</a></small>
+      </h3>
+    </div>
+    <div id="{{../id}}Details{{index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{../id}}Summary{{index}}">
+      <div class="details panel-body">
+        <span class="delayed_value badge">{{delayed.value}}</span> microlife if you
+        {{delayed.description}}
+      </div>
+    </div>
+  </li>
 </template>
 
 <template name="hello">

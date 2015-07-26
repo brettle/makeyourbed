@@ -1,0 +1,21 @@
+{
+    "version": "1.4.1",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "compileOnSave": true,
+    "files": [
+        "./features/step_definitions/sample_steps.ts",
+        "./features/step_definitions/track_microlives_steps.ts",
+        "./features/support/hooks.ts"
+    ]
+}

@@ -13,12 +13,13 @@
         "!./node_modules/**/*.ts",
         "!./tests/cucumber/node_modules/**/*.ts"
     ],
+    "compileOnSave": false,
     "files": [
-        "./client/body_helper.ts",
+        "./client/activityTemplate.ts",
+        "./client/bodyTemplate.ts",
         "./makeyourbed.ts",
         "./tests/cucumber/features/step_definitions/sample_steps.ts",
         "./tests/cucumber/features/step_definitions/track_microlives_steps.ts",
-        "./tests/cucumber/features/step_definitions/zzz.ts-compiler.ts",
         "./tests/cucumber/features/support/hooks.ts",
         "./typings/bluebird/bluebird.d.ts",
         "./typings/chai-as-promised/chai-as-promised.d.ts",
