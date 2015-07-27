@@ -5,11 +5,8 @@
 <body>
   <h1>Make Your Bed <small>Score: <a id="score" role="button" href="#" class="badge">1234</a></small></h1>
 
-  <h2>Do:</h2>
-  {{> activityList activities=dos id='do' label='&checkmark;'}}
+  {{> activityList activities=activities id='do'}}
 
-  <h2>Don't:</h2>
-  {{> activityList activities=donts id='dont' label='&cross;'}}
 </body>
 
 <template name="activityList">

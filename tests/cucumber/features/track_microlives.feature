@@ -13,20 +13,9 @@ Feature: Track microlives
   @dev
   Scenario:
     When I look at the page
-    Then I see a Do list
-    And I see a Don't list
-    And each action should have a short summary
+    Then each action should have a short summary
     And each action should have a details link which displays the value of reaching the target by a deadline
-
-  @dev
-  Scenario:
-    When I look at the Do list
-    Then it is ordered by descending immediate value and then by descending delayed value
-
-  @dev
-  Scenario:
-    When I look at the Don't list
-    Then it is ordered by descending absolute immediate value and then by descending absolute delayed value
+    And the actions are listed in descending order by sign(immediate_value), abs(immediate_value), abs(delayed_value)
 
   Scenario Outline:
     When I click the checkbox for "<action>", which affects my score

@@ -2,7 +2,7 @@
 
 var bodyTemplate: Template = Template["body"];
 bodyTemplate.helpers({
-  dos: [
+  activities: [
     {
       index: 0,
       immediate: {
@@ -24,31 +24,28 @@ bodyTemplate.helpers({
         description: 'drink 1 cup of coffee today',
         value: 1
       }
-    }
-  ],
-  donts: [
-  {
-    index: 0,
-    immediate: {
-      description: 'Smoke a cigarette',
-      value: -1.5
     },
-    delayed: {
-      description: 'smoke 1 cigarette today',
-      value: 1.5
-    }
-  },
-  {
-    index: 1,
-    immediate: {
-      description: 'Smoke a cigar',
-      value: 0
+    {
+      index: 2,
+      immediate: {
+        description: 'Smoke a cigar',
+        value: 0
+      },
+      delayed: {
+        description: 'smoke 2 cigars today',
+        value: 1.5
+      }
     },
-    delayed: {
-      description: 'smoke 2 cigars today',
-      value: 1.5
+    {
+      index: 3,
+      immediate: {
+        description: 'Smoke a cigarette',
+        value: -1.5
+      },
+      delayed: {
+        description: 'smoke 1 cigarette today',
+        value: 1.5
+      }
     }
-  }
-
   ]
 });
