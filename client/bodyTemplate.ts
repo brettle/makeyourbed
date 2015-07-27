@@ -36,7 +36,7 @@ bodyTemplate.helpers({
       },
       delayed: {
         description: 'smoke 2 cigars today',
-        value: 1.5
+        value: -1.5
       }
     },
     {
@@ -48,7 +48,7 @@ bodyTemplate.helpers({
       },
       delayed: {
         description: 'smoke 1 cigarette today',
-        value: 1.5
+        value: -1.5
       }
     }
   ]
