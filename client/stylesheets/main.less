@@ -1,0 +1,31 @@
+/* CSS declarations go here */
+
+@brand-primary: darken(#428bca, 6.5%); // #337ab7
+@brand-success: #5cb85c;
+@brand-info:    #5bc0de;
+@brand-warning: #f0ad4e;
+@brand-danger:  #d9534f;
+
+ul.panel-group {
+  list-style-type: none;
+}
+
+.panel-default > .panel-heading .badge.positive{
+  background-color: @brand-success;
+}
+
+.panel-default > .panel-heading .badge.negative {
+  background-color: @brand-danger;
+}
+
+.panel-default > .panel-heading .badge.zero {
+  background-color: @brand-primary;
+}
+
+.panel-default > .panel-heading .do.immediate_value.badge {
+  background-color: green;
+}
+
+.panel-default > .panel-heading .dont.immediate_value.badge {
+  background-color: red;
+}

@@ -7,6 +7,7 @@ bodyTemplate.helpers({
       index: 0,
       immediate: {
         description: 'Drink a can of Coke',
+        "class": "positive",
         value: 1
       },
       delayed: {
@@ -18,6 +19,7 @@ bodyTemplate.helpers({
       index: 1,
       immediate: {
         description: 'Drink a cup of coffee',
+        "class": "positive",
         value: 1
       },
       delayed: {
@@ -29,6 +31,7 @@ bodyTemplate.helpers({
       index: 2,
       immediate: {
         description: 'Smoke a cigar',
+        "class": "zero",
         value: 0
       },
       delayed: {
@@ -40,6 +43,7 @@ bodyTemplate.helpers({
       index: 3,
       immediate: {
         description: 'Smoke a cigarette',
+        "class": "negative",
         value: -1.5
       },
       delayed: {

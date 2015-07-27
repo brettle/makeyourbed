@@ -12,3 +12,4 @@ meteortypescript:typescript-libs
 meteortypescript:compiler
 brettle:bootstrap-with-injected-meta-tags
 meteorhacks:inject-initial
+less
