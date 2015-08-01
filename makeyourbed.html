@@ -4,8 +4,27 @@
 
 <body>
   <div class="container-fluid">
-    <h1>Make Your Bed <small>Score: <a id="score" role="button" href="#" class="badge">1234</a></small></h1>
-
+    <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Make Your Bed </a>
+            <span class="navbar-text">Score: <a id="score" role="button" href="#" class="badge">1234</a></span>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                {{> loginButtons}}
+            </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li class="active"></li>
+          </ul>
+        </div>
+    </div>
+    <pre>{{myUser}}</pre>
     {{> activityList activities=activities id='do'}}
   </div>
 </body>

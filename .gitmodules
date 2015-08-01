@@ -1,3 +1,6 @@
 [submodule "packages/bootstrap"]
 	path = packages/bootstrap
 	url = git@github.com:brettle/bootstrap.git
+[submodule "packages/meteor-accounts-guest"]
+	path = packages/meteor-accounts-guest
+	url = git@github.com:brettle/meteor-accounts-guest

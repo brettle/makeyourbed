@@ -51,5 +51,6 @@ bodyTemplate.helpers({
         value: -1.5
       }
     }
-  ]
+  ],
+  myUser: () => EJSON.stringify(<any>Meteor.user(), {indent: true}),
 });
